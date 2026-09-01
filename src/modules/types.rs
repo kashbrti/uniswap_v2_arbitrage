@@ -13,7 +13,7 @@ pub(crate) struct Pool {
     pub(crate) token1: Token,
 }
 
-#[derive(Deserialize, Debug, Clone)]
+#[derive(Deserialize, Debug, Clone, PartialEq)]
 pub(crate) struct Token {
     pub(crate) address: Address,
     pub(crate) symbol: String,

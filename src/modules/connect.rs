@@ -126,7 +126,7 @@ mod tests {
         // for pool in &pools{
         //     println!("the pools are: {:?}", &pool.clone()); 
         // }
-        assert_eq!(pools.len(), 3);
+        assert_eq!(pools.len(), 5);
     }
 
     #[tokio::test]

@@ -18,14 +18,14 @@ use crate::modules::connect::{get_pools, get_url};
 use std::sync::Arc; 
 
 
-pub(crate) struct UniSwapSyncCollector{
+pub(crate) struct V2SyncCollector{
     provider: DynProvider, 
     pool_addresses: Vec<Address>, 
     pool_map: HashMap<Address, Pool>,
 }
 
 
-impl UniSwapSyncCollector{
+impl V2SyncCollector{
     pub async fn new(url: String, pools: &[Pool]) -> Result<Self>{
         let ws = WsConnect::new(url); 
         let provider = ProviderBuilder::new().connect_ws(ws).await?.erased(); 
@@ -49,7 +49,7 @@ impl UniSwapSyncCollector{
 
 
 #[async_trait]
-impl Collector<Event> for UniSwapSyncCollector {
+impl Collector<Event> for V2SyncCollector {
     async fn subscribe(&self) -> Result<CollectorStream<'_, Event>>{
         let filter = Filter::new()
             .address(self.pool_addresses.clone())
@@ -85,7 +85,7 @@ use std::time::Duration;
     async fn test_uniswap_sync_collector() -> Result<()>{
         let url = get_url().context("failed to get the url, make sure the URL is set up")?; 
         let pools = get_pools().context("failed to get the pools, check toml")?;
-        let collector = UniSwapSyncCollector::new(url, &pools).await?; 
+        let collector = V2SyncCollector::new(url, &pools).await?; 
 
         let mut stream = collector.subscribe().await?; 
 
